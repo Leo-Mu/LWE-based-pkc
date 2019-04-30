@@ -22,7 +22,7 @@
 class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0)
 {
 	public:
-		matrix(int n=0,int m=0,int q=998244353,int rd=EMPTY,double sig=0.0);
+		matrix(int n=0,int m=1,int q=998244353,int rd=EMPTY,double sig=0.0);
 		matrix(const matrix& m);
 
 		std::vector<int>& operator[](int i);
