@@ -18,10 +18,13 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 		std::vector<int>& operator[](int i);
 		const std::vector<int>& operator[](int i) const;
 		matrix& operator=(matrix a);
+		matrix operator~(void);
+		friend matrix operator!(matrix a);
 
 		
 	private:
-		int n,m;
+		int n,m,q,rd;
+		double sig;
 		int mod;
 		std::vector<std::vector<int> > v;
 };
@@ -30,7 +33,7 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 
 
 
-matrix::matrix(int _n,int _m,int q,int rd,double sig): n(_n),m(_m),v(_n,std::vector<int>(_m))
+matrix::matrix(int _n,int _m,int _q,int _rd,double _sig): n(_n),m(_m),q(_q),rd(_rd),sig(_sig),v(_n,std::vector<int>(_m))
 {
 	std::random_device seed;
 	std::default_random_engine gen{seed()};
@@ -82,22 +85,21 @@ matrix& matrix::operator=(matrix a)
 
 	return *this;
 }
-/*
-template <int m,int n,int q,int rd,double sig>
 
 
-template <int m,int n,int q,int rd,double sig>
-friend matrix<m,n,q,rd,sig> matrix<n,m,q,rd,sig>::operator~(matrix<n,m,q,rd,sig> a)
+matrix matrix::operator~(void)
 {
-	matrix<m,n,q,rd,sig> tmp;
+	matrix tmp(m,n,q,rd,sig);
 
 	for(int i=0;i<n;i++)
 	{
 		for(int j=0;j<m;j++)
 		{
-			tmp[j][i]=a[i][j];
+			tmp[j][i]=v[i][j];
 		}
 	}
-}*/
+
+	return tmp;
+}
 
 #endif
