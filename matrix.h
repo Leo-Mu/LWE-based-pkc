@@ -33,9 +33,8 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 		friend matrix operator-(matrix a,matrix b);
 		friend matrix operator*(matrix a,matrix b);
 
-		matrix& f(int q_);
+		friend matrix f(matrix mx,int q_);
 
-		
 	private:
 		int n,m,q,rd;
 		double sig;
@@ -173,17 +172,18 @@ matrix operator*(matrix a,matrix b)
 	return tmp;
 }
 
-matrix& matrix::f(int q_)
+matrix f(matrix mx,int q_)
 {
-	for(int i=0;i<n;i++)
+	matrix tmp(mx);
+	for(int i=0;i<tmp.n;i++)
 	{
-		for(int j=0;j<m;j++)
+		for(int j=0;j<tmp.m;j++)
 		{
-			v[i][j]=int(round(double(v[i][j])*double(q_)/double(q)));
+			tmp[i][j]=int(round(double(tmp[i][j])*double(q_)/double(tmp.q)));
 		}
 	}
 
-	return *this;
+	return tmp;
 }
 
 #endif
