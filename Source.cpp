@@ -1,24 +1,8 @@
 #include<iostream>
 #include<random>
 #include<vector>
+#include"matrix.hpp"
 using namespace std;
-
-template<int m,int n>
-class matrix
-{
-public:
-	matrix();
-	
-private:
-	int mod;
-	vector<vector<int> > v(m, vector<int>(n));
-};
-
-template<int m, int n>
-matrix<m, n>::matrix()
-{
-
-}
 
 int main(void)
 {
@@ -33,5 +17,3 @@ int main(void)
 	//cout << "Normally distributed values: " << norm(rng) << " " << norm(rng) << std::endl;
 	return 0;
 }
-
-
