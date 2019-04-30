@@ -10,6 +10,14 @@
 #define UNIFORM 0
 #define EMPTY -1
 
+#define M_PI		3.14159265358979323846
+#define M_PI_2		1.57079632679489661923
+#define M_PI_4		0.78539816339744830962
+#define M_1_PI		0.31830988618379067154
+#define M_2_PI		0.63661977236758134308
+#define M_2_SQRTPI	1.12837916709551257390
+#define M_SQRT2 	1.41421356237309504880
+
 //template// <int n,int m>
 class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0)
 {
@@ -24,6 +32,8 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 		friend matrix operator+(matrix a,matrix b);
 		friend matrix operator-(matrix a,matrix b);
 		friend matrix operator*(matrix a,matrix b);
+
+		matrix& f(int q_);
 
 		
 	private:
@@ -161,6 +171,19 @@ matrix operator*(matrix a,matrix b)
 	}
 
 	return tmp;
+}
+
+matrix& matrix::f(int q_)
+{
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			v[i][j]=int(round(double(v[i][j])*double(q_)/double(q)));
+		}
+	}
+
+	return *this;
 }
 
 #endif
