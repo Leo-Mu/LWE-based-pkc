@@ -1,7 +1,7 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP 1
 
-//#include <iostream>
+#include <iostream>
 #include <random>
 #include <cmath>
 #include <vector>
@@ -141,12 +141,12 @@ matrix operator+(matrix a,matrix b)
 
 	for(int i=0;i<a.n;i++)
 	{
-		for(int j=0;j<b.n;j++)
+		for(int j=0;j<a.m;j++)
 		{
 			tmp[i][j]=(a[i][j]+b[i][j])%a.q;
 		}
 	}
-
+	
 	return tmp;
 }
 matrix operator-(matrix a,matrix b)
