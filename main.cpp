@@ -1,18 +1,19 @@
 #include <iostream>
 #include <fstream>
 #include <random>
+#include <ctime>
 
 #include "matrix.h"
 #include "Source.h"
 
 using namespace std;
 
-const int m=1319,n=166,l=166,q=4093,r=4,t=2;
-const double alpha=0.0024;
+const int m=1042,n=233,l=233,q=32749,r=37,t=2;
+const double alpha=0.000217;
 
 //amnltrq
 
-ofstream pl("plaintext.txt");
+ofstream key("key.txt");
 ofstream ci("ciphertext.txt");
 ofstream rep("report.txt");
 
@@ -23,17 +24,17 @@ void output(ostream& out,matrix m)
 		for(int j=0;j<m.m;j++)
 		{
 			out<<m[i][j];
-
-			if(m.m>1)
-			{
-				out<<" ";
-			}
+			out<<" ";
 		}
-		out<<"\n";
+		if(m.m>1)
+		{
+			out<<"\n";
+		}
 	}
+	out<<"\n";
 }
 
-void cmp(matrix l,matrix r)
+int cmp(matrix l,matrix r)
 {
 	int cnt=0;
 
@@ -41,19 +42,22 @@ void cmp(matrix l,matrix r)
 	{
 		if(l[i][0]!=r[i][0])
 		{
-			rep<<"l: "<<l[i][0]<<" r: "<<r[i][0]<<"\n";
+			rep<<"pos: "<<i<<" l: "<<l[i][0]<<" r: "<<r[i][0]<<"\n";
 			cnt++;
 		}
 	}
 
-	cout<<"\nwrong "<<cnt<<" in "<<l.n<<", "<<double(cnt*100)/double(l.n)<<"% right\n";
+	//cout<<"\nwrong "<<cnt<<" in "<<l.n<<", "<<double((l.n-cnt)*100)/double(l.n)<<"% right\n";
+	rep<<"\nwrong "<<cnt<<" in "<<l.n<<", "<<double((l.n-cnt)*100)/double(l.n)<<"% right\n";
+
+	return cnt;
 }
 
 int main(void)
 {
-	
+	srand(time(NULL));
 
-	int cs;
+	int cs,cnt=0;
 	
 	crypto cpt(alpha,m,n,l,t,r,q);
 
@@ -88,23 +92,29 @@ int main(void)
 		pair<matrix,matrix> ct=cpt.enc(plt);
 		matrix pt2=cpt.dec(ct);
 
-		rep<<"Case "<<cs<<"\n\n";
-		pl<<"Case "<<cs<<"\n\n";
-		ci<<"Case "<<cs<<"\n\n";
+		rep<<"Case "<<i<<"\n\n";
+		key<<"Case "<<i<<"\n\n";
+		ci<<"Case "<<i<<"\n\n";
 
-		pl<<"u:\n";
-		output(rep,ct.first);
-		pl<<"c:\n";
-		output(rep,ct.second);
-		output(ci,plt);
-		output(ci,pt2);
+		ci<<"u:\n";
+		output(ci,ct.first);
+		ci<<"c:\n";
+		output(ci,ct.second);
+		key<<"plt\n\n";
+		output(key,plt);
+		key<<"pt2\n";
+		output(key,pt2);
 		
-		rep<<"\n================\n";
-		pl<<"\n================\n";
-		ci<<"\n================\n";
+		cnt+=cmp(plt,pt2);
 
-		cmp(plt,pt2);
+		rep<<"\n================\n";
+		key<<"\n================\n";
+		ci<<"\n================\n";
 	}
+
+	cout<<"\ntotal wrong "<<cnt<<" in "<<l*cs<<", "<<double((l*cs-cnt)*100)/double(l*cs)<<"% right\n";
+	rep<<"\ntotal wrong "<<cnt<<" in "<<l*cs<<", "<<double((l*cs-cnt)*100)/double(l*cs)<<"% right\n";
+
 
 	return 0;
 }

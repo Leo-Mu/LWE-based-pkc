@@ -21,6 +21,43 @@
 typedef long long ll;
 typedef long double ld;
 
+ll qpow(ll a,ll n,ll mod)
+{
+	if(n==0LL)
+	{
+		return 1LL;
+	}
+	else if(n==1LL)
+	{
+		return a;
+	}
+	else
+	{
+		ll ans=qpow(a,n/2LL,mod);
+
+		if(n%2LL==1LL)
+		{
+			return ans*ans%mod*a%mod;
+		}
+		else
+		{
+			return ans*ans%mod;
+		}
+	}
+}
+
+ll rev(ll a,ll n)
+{
+	if(a==0LL)
+	{
+		return 0;
+	}
+	else
+	{
+		return qpow(a,n-2,n);
+	}
+}
+
 //template// <int n,int m>
 class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0)
 {
@@ -52,25 +89,24 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 
 matrix::matrix(int _n,int _m,int _q,int _rd,double _sig): n(_n),m(_m),q(_q),rd(_rd),sig(_sig),v(_n,std::vector<ll>(_m))
 {
-
 	if(rd==GAUSS)
 	{
-	std::random_device seed;
-	std::default_random_engine gen{seed()};
+		std::random_device seed;
+		std::default_random_engine gen{rand()};
 		std::normal_distribution<double> rd(0.0,sig);
 
 		for(int i=0;i<n;i++)
 		{
 			for(int j=0;j<m;j++)
 			{
-				v[i][j]=ll(round(rd(gen)))%q;
+				v[i][j]=(ll(round(rd(gen)))%q+q)%q;
 			}
 		}
 	}
 	else if(rd==UNIFORM)
 	{
-	std::random_device seed;
-	std::default_random_engine gen{seed()};
+		std::random_device seed;
+		std::default_random_engine gen{rand()};
 		std::uniform_int_distribution<int> rd(0,q-1);
 
 		for(int i=0;i<n;i++)
@@ -148,7 +184,7 @@ matrix operator+(matrix a,matrix b)
 	{
 		for(int j=0;j<a.m;j++)
 		{
-			tmp[i][j]=a[i][j]+b[i][j];
+			tmp[i][j]=((a[i][j]+b[i][j])%tmp.q+tmp.q)%tmp.q;
 		}
 	}
 
@@ -162,7 +198,7 @@ matrix operator-(matrix a,matrix b)
 	{
 		for(int j=0;j<a.m;j++)
 		{
-			tmp[i][j]=a[i][j]-b[i][j];
+			tmp[i][j]=((a[i][j]-b[i][j])%tmp.q+tmp.q)%tmp.q;
 		}
 	}
 
@@ -178,7 +214,8 @@ matrix operator*(matrix a,matrix b)
 		{
 			for(int k=0;k<a.m;k++)
 			{
-				tmp[i][j]+=a[i][k]*b[k][j];
+				tmp[i][j]+=((a[i][k]*b[k][j])%tmp.q+tmp.q)%tmp.q;
+				tmp[i][j]%=tmp.q;
 			}
 		}
 	}
@@ -186,14 +223,46 @@ matrix operator*(matrix a,matrix b)
 	return tmp;
 }
 
-matrix f(matrix mx,int q_,int t_)
+matrix f(matrix mx,int q_)
 {
-	matrix tmp(mx);
+	matrix tmp(mx);//std::cout<<t_<<"adsf";
 	for(int i=0;i<tmp.n;i++)
 	{
 		for(int j=0;j<tmp.m;j++)
 		{
-			tmp[i][j]=ll(round(ld(tmp[i][j])*ld(q_)/ld(t_)));
+			if(tmp[i][j]==1)
+			{
+				tmp[i][j]=q_/2;
+			}
+			//tmp[i][j]=ll(round(ld(tmp[i][j])*ld(q_)/2.0));
+		}
+	}
+
+	return tmp;
+}
+
+matrix f_rev(matrix mx,int q_)
+{
+	matrix tmp(mx);//std::cout<<t_<<"adsf";
+	for(int i=0;i<tmp.n;i++)
+	{
+		for(int j=0;j<tmp.m;j++)
+		{
+			int temp=(tmp[i][j]%q_+q_)%q_;
+			//std::cout<<temp<<"a";
+			if(abs(temp-q_/2)<=abs(temp) && abs(temp-q_/2)<=abs(q_-temp))
+			{
+				tmp[i][j]=1;
+			}
+			else
+			{
+				tmp[i][j]=0;
+			}/*
+			tmp[i][j]=ll(round(ld(tmp[i][j])*2.0/ld(q_)));
+			if(tmp[i][j]==2)
+			{
+				tmp[i][j]=0;
+			}*/
 		}
 	}
 

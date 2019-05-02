@@ -20,7 +20,7 @@ private:
 };
 
 crypto::crypto(double a_, int m_, int n_, int l_, int t_, int r_, int q_)
-	:A(m_, n_, q_, UNIFORM), S(n_, l_, q_, UNIFORM), E(m_, l_, q_, GAUSS, (double)a_*q_ / (M_PI * M_SQRT2)),
+	:A(m_, n_, q_, UNIFORM), S(n_, l_, q_, UNIFORM), E(m_, l_, q_, GAUSS, (double)a_*q_ / (M_2_SQRTPI * M_SQRT2)),
 	a(a_), m(m_), n(n_), l(l_), t(t_), r(r_), q(q_)
 {
 	B = A * S + E;
@@ -28,18 +28,20 @@ crypto::crypto(double a_, int m_, int n_, int l_, int t_, int r_, int q_)
 
 pair<matrix, matrix> crypto::enc(matrix v)
 {
-	matrix R(m, 1, 2 * r + 1, UNIFORM);cout<<"asdf";
-	for (int i = 0; i < m; i++)
+	matrix R(m, 1, r-1, UNIFORM);//cout<<"asdf";
+	/*for (int i = 0; i < m; i++)
 	{
 		R[i][0] -= r;
-	}
-	matrix u = (~A)*R, c = (~B)*R + f(v, q, t);
+	}*/
+	matrix u = (~A)*R, c = (~B)*R;
+	c=c+f(v,q);
+
 	return pair<matrix, matrix>(u, c);
 }
 
 matrix crypto::dec(pair<matrix, matrix> uc)
-{
-	return f((uc.second - S * uc.first), t, q);
+{//cout<<t;
+	return f_rev((uc.second - (~S) * uc.first),q);
 }
 
 pair<matrix, matrix> crypto::pub(void)
