@@ -33,13 +33,13 @@ pair<matrix, matrix> crypto::enc(matrix v)
 	{
 		R[i][0] -= r;
 	}
-	matrix u = (~A)*R, c = (~B)*R + f(v, q);
+	matrix u = (~A)*R, c = (~B)*R + f(v, q, t);
 	return pair<matrix, matrix>(u, c);
 }
 
 matrix crypto::dec(pair<matrix, matrix> uc)
 {
-	return f((uc.second - S * uc.first), t);
+	return f((uc.second - S * uc.first), t, q);
 }
 
 pair<matrix, matrix> crypto::pub(void)
