@@ -11,6 +11,8 @@ public:
 	crypto(double a, int m, int n, int l, int t, int r, int q);
 	pair<matrix, matrix> enc(matrix v);
 	matrix dec(pair<matrix, matrix>uc);
+	pair<matrix, matrix> pub(void);
+	matrix pri(void);
 private:
 	matrix A, E, B, S;
 	double a;
@@ -38,4 +40,14 @@ pair<matrix, matrix> crypto::enc(matrix v)
 matrix crypto::dec(pair<matrix, matrix> uc)
 {
 	return f((uc.second - S * uc.first), t);
+}
+
+pair<matrix, matrix> crypto::pub(void)
+{
+	return pair<matrix, matrix>(A, B);
+}
+
+matrix crypto::pri(void)
+{
+	return S;
 }
