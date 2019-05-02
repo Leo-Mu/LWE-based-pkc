@@ -23,7 +23,7 @@ crypto::crypto(double a_, int m_, int n_, int l_, int t_, int r_, int q_)
 	:A(m_, n_, q_, UNIFORM), S(n_, l_, q_, UNIFORM), E(m_, l_, q_, GAUSS, (double)a_*q_ / (M_PI * M_SQRT2)),
 	a(a_), m(m_), n(n_), l(l_), t(t_), r(r_), q(q_)
 {
-	B = A * S + E;
+	B = A;cout<<"asdf";
 }
 
 pair<matrix, matrix> crypto::enc(matrix v)

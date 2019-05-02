@@ -106,8 +106,11 @@ matrix& matrix::operator=(matrix a)
 	rd=a.rd;
 	sig=a.sig;
 
+	v.resize(n);
+
 	for(int i=0;i<n;i++)
 	{
+		v[i].resize(m);
 		for(int j=0;j<m;j++)
 		{
 			v[i][j]=a[i][j];

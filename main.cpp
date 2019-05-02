@@ -57,7 +57,7 @@ int main(void)
 	
 	crypto cpt(alpha,m,n,l,t,r,q);
 
-	cout<<"Please input the number of test cases.";
+	cout<<"Please input the number of test cases: ";
 	cin>>cs;
 
 	pair<matrix,matrix> pub;
