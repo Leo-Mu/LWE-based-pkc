@@ -23,13 +23,16 @@ pair< matrix, matrix> enc(pair<matrix, matrix>pub, int m, int r, int t, int l, i
 	matrix v(l, 1, t, UNIFORM), R(m, 1, 2 * r + 1,UNIFORM);
 	for (int i = 0; i < m; i++)
 	{
-		R[i][0] -= 1;
+		R[i][0] -= r;
 	}
 	matrix u = (~(pub.first))*R, c = (~(pub.second))*R + f(v, q);
 	return pair<matrix, matrix>(u, c);
 }
 
-
+matrix dec(int t, pair<matrix, matrix>uc, matrix s)
+{
+	return f((uc.second - s * uc.first), t);
+}
 
 int main(void)
 {
