@@ -37,7 +37,7 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 		friend matrix operator-(matrix a,matrix b);
 		friend matrix operator*(matrix a,matrix b);
 
-		friend matrix f(matrix mx,int q_);
+		friend matrix f(matrix mx,int q_,int t_);
 
 	private:
 		int q,rd;
