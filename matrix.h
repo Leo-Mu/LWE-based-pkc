@@ -175,7 +175,7 @@ matrix operator*(matrix a,matrix b)
 		{
 			for(int k=0;k<a.m;k++)
 			{
-				tmp[i][j]+=tmp[i][k]*tmp[k][j]%a.q;
+				tmp[i][j]+=a[i][k]*b[k][j]%a.q;
 				tmp[i][j]%=a.q;
 			}
 		}
