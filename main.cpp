@@ -22,7 +22,12 @@ void output(matrix m)
 	{
 		for(int j=0;j<m.m;j++)
 		{
-			rep<<m[i][j]<<" ";
+			rep<<m[i][j];
+
+			if(m.m>1)
+			{
+				cout<<" ";
+			}
 		}
 		rep<<"\n";
 	}
@@ -61,11 +66,13 @@ int main(void)
 	rep<<"q: "<<q<<"\n";
 
 
-	for(int i=0;i<t;i++)
+	for(int i=1;i<=t;i++)
 	{
-		matrix plt(l);
+		rep<<"\n================\n";
 
-
+		matrix plt(l,0,2,UNIFORM);
+		pair<matrix,mairix> ct=cpt.enc(plt);
+		matrix pt2=dec(ct);
 	}
 
 	return 0;
