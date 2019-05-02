@@ -49,11 +49,11 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 
 matrix::matrix(int _n,int _m,int _q,int _rd,double _sig): n(_n),m(_m),q(_q),rd(_rd),sig(_sig),v(_n,std::vector<int>(_m))
 {
-	std::random_device seed;
-	std::default_random_engine gen{seed()};
 
 	if(rd==GAUSS)
 	{
+	std::random_device seed;
+	std::default_random_engine gen{seed()};
 		std::normal_distribution<double> rd(0.0,sig);
 
 		for(int i=0;i<n;i++)
@@ -66,6 +66,8 @@ matrix::matrix(int _n,int _m,int _q,int _rd,double _sig): n(_n),m(_m),q(_q),rd(_
 	}
 	else if(rd==UNIFORM)
 	{
+	std::random_device seed;
+	std::default_random_engine gen{seed()};
 		std::uniform_int_distribution<int> rd(0,q-1);
 
 		for(int i=0;i<n;i++)
@@ -122,7 +124,7 @@ matrix& matrix::operator=(matrix a)
 
 matrix matrix::operator~(void)
 {
-	matrix tmp(*this);
+	matrix tmp(m,n,q,rd,sig);
 
 	for(int i=0;i<n;i++)
 	{
@@ -146,7 +148,7 @@ matrix operator+(matrix a,matrix b)
 			tmp[i][j]=(a[i][j]+b[i][j])%a.q;
 		}
 	}
-	
+
 	return tmp;
 }
 matrix operator-(matrix a,matrix b)
@@ -165,7 +167,7 @@ matrix operator-(matrix a,matrix b)
 }
 matrix operator*(matrix a,matrix b)
 {
-	matrix tmp(a.n,b.m);
+	matrix tmp(a.n,b.m,a.q);
 
 	for(int i=0;i<a.n;i++)
 	{
