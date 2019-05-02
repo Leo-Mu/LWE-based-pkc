@@ -22,6 +22,7 @@
 class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0)
 {
 	public:
+		int n,m;
 		matrix(int n=0,int m=1,int q=998244353,int rd=EMPTY,double sig=0.0);
 		matrix(const matrix& m);
 
@@ -36,7 +37,7 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 		friend matrix f(matrix mx,int q_);
 
 	private:
-		int n,m,q,rd;
+		int q,rd;
 		double sig;
 		int mod;
 		std::vector<std::vector<int> > v;
@@ -99,6 +100,12 @@ const std::vector<int>& matrix::operator[](int i) const
 
 matrix& matrix::operator=(matrix a)
 {
+	n=a.n;
+	m=a.m;
+	q=a.q;
+	rd=a.rd;
+	sig=a.sig;
+
 	for(int i=0;i<n;i++)
 	{
 		for(int j=0;j<m;j++)
