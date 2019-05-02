@@ -16,21 +16,37 @@ ofstream pl("plaintext.txt");
 ofstream ci("ciphertext.txt");
 ofstream rep("report.txt");
 
-void output(matrix m)
+void output(ostream& out,matrix m)
 {
 	for(int i=0;i<m.n;i++)
 	{
 		for(int j=0;j<m.m;j++)
 		{
-			rep<<m[i][j];
+			out<<m[i][j];
 
 			if(m.m>1)
 			{
-				cout<<" ";
+				out<<" ";
 			}
 		}
-		rep<<"\n";
+		out<<"\n";
 	}
+}
+
+void cmp(matrix l,matrix r)
+{
+	int cnt=0;
+
+	for(int i=0;i<l.n;i++)
+	{
+		if(l[i][0]!=r[i][0])
+		{
+			rep<<"l: "<<l[i][0]<<" r: "<<r[i][0]<<"\n";
+			cnt++;
+		}
+	}
+
+	cout<<"\nwrong "<<cnt<<" in "<<l.n<<", "<<double(cnt*100)/double(l.n)<<"% right\n";
 }
 
 int main(void)
@@ -52,27 +68,42 @@ int main(void)
 
 	rep<<"REPORT:\n";
 	rep<<"\nA:\n";
-	output(pub.first);
+	output(rep,pub.first);
 	rep<<"\nS:\n";
-	output(pri);
+	output(rep,pri);
 	rep<<"\nB:\n";
-	output(pub.second);
-	rep<<"a: "<<a<<"\n";
+	output(rep,pub.second);
+	rep<<"alpha: "<<alpha<<"\n";
 	rep<<"m: "<<m<<"\n";
 	rep<<"n: "<<n<<"\n";
 	rep<<"l: "<<l<<"\n";
 	rep<<"t: "<<t<<"\n";
 	rep<<"r: "<<r<<"\n";
 	rep<<"q: "<<q<<"\n";
-
+	rep<<"\n================\n";
 
 	for(int i=1;i<=t;i++)
 	{
-		rep<<"\n================\n";
-
 		matrix plt(l,0,2,UNIFORM);
-		pair<matrix,mairix> ct=cpt.enc(plt);
-		matrix pt2=dec(ct);
+		pair<matrix,matrix> ct=cpt.enc(plt);
+		matrix pt2=cpt.dec(ct);
+
+		rep<<"Case "<<i<<"\n\n";
+		pl<<"Case "<<i<<"\n\n";
+		ci<<"Case "<<i<<"\n\n";
+
+		pl<<"u:\n";
+		output(rep,ct.first);
+		pl<<"c:\n";
+		output(rep,ct.second);
+		output(ci,plt);
+		output(ci,pt2);
+		
+		rep<<"\n================\n";
+		pl<<"\n================\n";
+		ci<<"\n================\n";
+
+		cmp(plt,pt2);
 	}
 
 	return 0;
