@@ -84,7 +84,7 @@ int main(void)
 
 	for(int i=1;i<=cs;i++)
 	{
-		matrix plt(l,0,2,UNIFORM);
+		matrix plt(l,1,2,UNIFORM);
 		pair<matrix,matrix> ct=cpt.enc(plt);
 		matrix pt2=cpt.dec(ct);
 
