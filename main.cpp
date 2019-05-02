@@ -53,12 +53,12 @@ int main(void)
 {
 	
 
-	int t;
+	int cs;
 	
 	crypto cpt(alpha,m,n,l,t,r,q);
 
 	cout<<"Please input the number of test cases.";
-	cin>>t;
+	cin>>cs;
 
 	pair<matrix,matrix> pub;
 	matrix pri;
@@ -82,15 +82,15 @@ int main(void)
 	rep<<"q: "<<q<<"\n";
 	rep<<"\n================\n";
 
-	for(int i=1;i<=t;i++)
+	for(int i=1;i<=cs;i++)
 	{
 		matrix plt(l,0,2,UNIFORM);
 		pair<matrix,matrix> ct=cpt.enc(plt);
 		matrix pt2=cpt.dec(ct);
 
-		rep<<"Case "<<i<<"\n\n";
-		pl<<"Case "<<i<<"\n\n";
-		ci<<"Case "<<i<<"\n\n";
+		rep<<"Case "<<cs<<"\n\n";
+		pl<<"Case "<<cs<<"\n\n";
+		ci<<"Case "<<cs<<"\n\n";
 
 		pl<<"u:\n";
 		output(rep,ct.first);
