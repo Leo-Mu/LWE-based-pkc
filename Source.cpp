@@ -5,34 +5,41 @@
 #include"matrix.h"
 using namespace std;
 
-
-void oneRound(int a, int m, int n, int l, int t, int r, int q)
+class crypto
 {
+public:
+	crypto(double a, int m, int n, int l, int t, int r, int q);
+	pair<matrix, matrix> enc(matrix v);
+	matrix dec(pair<matrix, matrix>uc);
+private:
+	matrix A, E, B, S;
+	double a;
+	int m, n, l, t, r, q;
+};
 
+crypto::crypto(double a_, int m_, int n_, int l_, int t_, int r_, int q_)
+	:A(m_, n_, q_, UNIFORM), S(n_, l_, q_, UNIFORM), E(m_, l_, q_, GAUSS, (double)a_*q_ / (M_PI * M_SQRT2)),
+	a(a_), m(m_), n(n_), l(l_), t(t_), r(r_), q(q_)
+{
+	B = A * S + E;
 }
 
-pair< pair<matrix, matrix>, matrix> gen(int a, int m, int n, int l, int q)
+pair<matrix, matrix> crypto::enc(matrix v)
 {
-	matrix A(m, n, q, UNIFORM), S(n, l, q, UNIFORM), E(m, l, q, GAUSS, (double)a*q / (M_PI * M_SQRT2));
-	matrix B = A * S + E;
-	return pair< pair<matrix, matrix>, matrix>(pair<matrix, matrix>(A, B), S);
-}
-
-pair< matrix, matrix> enc(pair<matrix, matrix>pub, int m, int r, int t, int l, int q)
-{
-	matrix v(l, 1, t, UNIFORM), R(m, 1, 2 * r + 1,UNIFORM);
+	matrix R(m, 1, 2 * r + 1, UNIFORM);
 	for (int i = 0; i < m; i++)
 	{
 		R[i][0] -= r;
 	}
-	matrix u = (~(pub.first))*R, c = (~(pub.second))*R + f(v, q);
+	matrix u = (~A)*R, c = (~B)*R + f(v, q);
 	return pair<matrix, matrix>(u, c);
 }
 
-matrix dec(int t, pair<matrix, matrix>uc, matrix s)
+matrix crypto::dec(pair<matrix, matrix> uc)
 {
-	return f((uc.second - s * uc.first), t);
+	return f((uc.second - S * uc.first), t);
 }
+
 
 int main(void)
 {
