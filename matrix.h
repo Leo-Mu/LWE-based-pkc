@@ -18,6 +18,9 @@
 #define M_2_SQRTPI	1.12837916709551257390
 #define M_SQRT2 	1.41421356237309504880
 
+typedef long long ll;
+typedef long double ld;
+
 //template// <int n,int m>
 class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0)
 {
@@ -26,8 +29,8 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 		matrix(int n=0,int m=1,int q=998244353,int rd=EMPTY,double sig=0.0);
 		matrix(const matrix& m);
 
-		std::vector<int>& operator[](int i);
-		const std::vector<int>& operator[](int i) const;
+		std::vector<ll>& operator[](int i);
+		const std::vector<ll>& operator[](int i) const;
 		matrix& operator=(matrix a);
 		matrix operator~(void);
 		friend matrix operator+(matrix a,matrix b);
@@ -40,14 +43,14 @@ class matrix //(const int& n,int m,int q=998244353,int rd=UNIFORM,double sig=0.0
 		int q,rd;
 		double sig;
 		int mod;
-		std::vector<std::vector<int> > v;
+		std::vector<std::vector<ll> > v;
 };
 
 //friend matrix matrix::operator~(matrix a)
 
 
 
-matrix::matrix(int _n,int _m,int _q,int _rd,double _sig): n(_n),m(_m),q(_q),rd(_rd),sig(_sig),v(_n,std::vector<int>(_m))
+matrix::matrix(int _n,int _m,int _q,int _rd,double _sig): n(_n),m(_m),q(_q),rd(_rd),sig(_sig),v(_n,std::vector<ll>(_m))
 {
 
 	if(rd==GAUSS)
@@ -60,7 +63,7 @@ matrix::matrix(int _n,int _m,int _q,int _rd,double _sig): n(_n),m(_m),q(_q),rd(_
 		{
 			for(int j=0;j<m;j++)
 			{
-				v[i][j]=int(round(rd(gen)))%q;
+				v[i][j]=ll(round(rd(gen)))%q;
 			}
 		}
 	}
@@ -74,7 +77,7 @@ matrix::matrix(int _n,int _m,int _q,int _rd,double _sig): n(_n),m(_m),q(_q),rd(_
 		{
 			for(int j=0;j<m;j++)
 			{
-				v[i][j]=rd(gen);
+				v[i][j]=ll(rd(gen));
 			}
 		}
 	}
@@ -84,18 +87,18 @@ matrix::matrix(int _n,int _m,int _q,int _rd,double _sig): n(_n),m(_m),q(_q),rd(_
 		{
 			for(int j=0;j<m;j++)
 			{
-				v[i][j]=0;
+				v[i][j]=0LL;
 			}
 		}
 	}
 }
 matrix::matrix(const matrix& b): n(b.n),m(b.m),q(b.q),rd(b.rd),sig(b.sig),v(b.v) {}
 
-std::vector<int>& matrix::operator[](int i)
+std::vector<ll>& matrix::operator[](int i)
 {
 	return v[i];
 }
-const std::vector<int>& matrix::operator[](int i) const
+const std::vector<ll>& matrix::operator[](int i) const
 {
 	return v[i];
 }
@@ -145,7 +148,7 @@ matrix operator+(matrix a,matrix b)
 	{
 		for(int j=0;j<a.m;j++)
 		{
-			tmp[i][j]=(a[i][j]+b[i][j])%a.q;
+			tmp[i][j]=a[i][j]+b[i][j];
 		}
 	}
 
@@ -159,7 +162,7 @@ matrix operator-(matrix a,matrix b)
 	{
 		for(int j=0;j<b.n;j++)
 		{
-			tmp[i][j]=(a[i][j]-b[i][j])%a.q;
+			tmp[i][j]=a[i][j]-b[i][j];
 		}
 	}
 
@@ -175,8 +178,7 @@ matrix operator*(matrix a,matrix b)
 		{
 			for(int k=0;k<a.m;k++)
 			{
-				tmp[i][j]+=a[i][k]*b[k][j]%a.q;
-				tmp[i][j]%=a.q;
+				tmp[i][j]+=a[i][k]*b[k][j];
 			}
 		}
 	}
@@ -184,14 +186,14 @@ matrix operator*(matrix a,matrix b)
 	return tmp;
 }
 
-matrix f(matrix mx,int q_)
+matrix f(matrix mx,int q_,int t_)
 {
 	matrix tmp(mx);
 	for(int i=0;i<tmp.n;i++)
 	{
 		for(int j=0;j<tmp.m;j++)
 		{
-			tmp[i][j]=int(round(double(tmp[i][j])*double(q_)/double(tmp.q)));
+			tmp[i][j]=ll(round(ld(tmp[i][j])*ld(q_)/ld(t_)));
 		}
 	}
 
